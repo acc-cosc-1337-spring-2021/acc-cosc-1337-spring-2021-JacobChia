@@ -1,112 +1,9 @@
 #include<string>
 #include <vector>
 #include <iostream>
+#include "tic_tac_toe.h"
 using std::string;
 using namespace std;
-class TicTacToe
-{
-    private:
-        string player;
-        vector<string> pegs;
-        string winner;
-        void set_next_player()
-        {
-            if(player == "X") {
-                player = "O";
-            } else {
-                player = "X";
-            } 
-        }
-
-        bool check_board_full()
-        {
-            for (auto it = pegs.begin(); it != pegs.end(); ++it) {
-                if (*it == " ") {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        void clear_board()
-        {
-            for (auto it = pegs.begin(); it != pegs.end(); ++it) {
-                *it = " ";
-            }
-        }
-
-        bool check_column_win()
-        {
-            string last = "X";
-            if(player == "X")
-                last = "O";
-            
-            if(pegs[0] == last && pegs[3] == last && pegs[6] == last)
-                return true;
-            
-            if(pegs[1] == last && pegs[4] == last && pegs[7] == last)
-                return true;
-
-            if(pegs[2] == last && pegs[5] == last && pegs[8] == last)
-                return true;
-
-            return false;
-        }
-
-        bool check_row_win()
-        {
-            string last = "X";
-            if(player == "X")
-                last = "O";
-            
-            if(pegs[0] == last && pegs[1] == last && pegs[2] == last)
-                return true;
-            
-            if(pegs[3] == last && pegs[4] == last && pegs[5] == last)
-                return true;
-
-            if(pegs[6] == last && pegs[7] == last && pegs[8] == last)
-                return true;
-
-            return false;
-        }
-        
-        bool check_diagonal_win()
-        {
-            string last = "X";
-            if(player == "X")
-                last = "O";
-
-            if(pegs[0] == last && pegs[4] == last && pegs[8] == last)
-                return true;
-            
-            if(pegs[2] == last && pegs[4] == last && pegs[6] == last)
-                return true;
-
-            return false;
-        }
-
-        void set_winner()
-        {
-            if(player == "X")
-                winner = "O";
-            else
-                winner = "X";
-        }
-
-    public:
-        bool game_over();
-
-        void start_game(string first_player);
-
-        void mark_board(int position);
-
-        string get_player();
-
-        void display_board();
-
-        string get_winner();
-};
 
 bool TicTacToe::game_over()
 {
@@ -136,10 +33,19 @@ void TicTacToe::mark_board(int position)
     set_next_player();
 }
 
-void TicTacToe::display_board()
+istream & operator >> (istream &in, TicTacToe &t)
+{
+    int pos;
+    cout << "Enter position from 1 to 9: ";
+    cin >> pos;
+    t.mark_board(pos);
+    return in;
+}
+
+ostream & operator << (ostream &out, const TicTacToe &t)
 {
     int idx = 0;
-    for (auto it = pegs.begin(); it != pegs.end(); ++it) {
+    for (auto it = t.pegs.begin(); it != t.pegs.end(); ++it) {
         cout << *it;
         if(idx % 3 != 2) {
             cout << "|";
@@ -148,6 +54,7 @@ void TicTacToe::display_board()
         }
         idx++;
     }
+    return out;
 }
 
 string TicTacToe::get_player()

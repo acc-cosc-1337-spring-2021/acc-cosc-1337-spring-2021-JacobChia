@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
-#include "tic_tac_toe.h"
+#include "tic_tac_toe_manager.h"
 #include <string>
 using std::string;
 
@@ -64,7 +64,7 @@ TEST_CASE("Test win by second column") {
 	REQUIRE(ttc.game_over() == true);
 }
 
-TEST_CASE("Test win by third column") {
+TEST_CASE("Test win by third column and get winner function") {
 	TicTacToe ttc;
 	ttc.start_game("X");
 
@@ -75,6 +75,7 @@ TEST_CASE("Test win by third column") {
 	ttc.mark_board(9);
 
 	REQUIRE(ttc.game_over() == true);
+	REQUIRE(ttc.get_winner() == "X");
 }
 
 TEST_CASE("Test win by first row") {
@@ -140,4 +141,39 @@ TEST_CASE("Test win diagonally from bottom left") {
 	ttc.mark_board(3);
 
 	REQUIRE(ttc.game_over() == true);
+}
+
+TEST_CASE("Test TicTacToe Manager") {
+	TicTacToeManager manager;
+	TicTacToe ttc;
+
+	ttc.start_game("X");
+	ttc.mark_board(7);
+	ttc.mark_board(2);
+	ttc.mark_board(5);
+	ttc.mark_board(4);
+	ttc.mark_board(3);
+	REQUIRE(ttc.game_over() == true);
+	manager.save_game(ttc);
+
+	ttc.start_game("X");
+	ttc.mark_board(7);
+	ttc.mark_board(2);
+	ttc.mark_board(5);
+	ttc.mark_board(4);
+	ttc.mark_board(3);
+	REQUIRE(ttc.game_over() == true);
+	manager.save_game(ttc);
+
+	ttc.start_game("X");
+	ttc.mark_board(7);
+	ttc.mark_board(2);
+	ttc.mark_board(5);
+	ttc.mark_board(4);
+	ttc.mark_board(3);
+	REQUIRE(ttc.game_over() == true);
+	manager.save_game(ttc);
+	int x, o, t;
+	manager.get_winner_total(o, x, t);
+	REQUIRE(x == 3);
 }
