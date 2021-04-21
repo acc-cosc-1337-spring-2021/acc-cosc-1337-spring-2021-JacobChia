@@ -1,8 +1,10 @@
 #include<string>
 #include <vector>
 #include <iostream>
+#include "tic_tac_toe.h"
 #include "tic_tac_toe_manager.h"
-
+#include "tic_tac_toe_3.h"
+#include "tic_tac_toe_4.h"
 using std::string;
 using namespace std;
 
@@ -18,8 +20,23 @@ int main()
 		cin >> player;
 	}
 	TicTacToeManager manager;
-	TicTacToe ttc;
-	ttc.start_game(player);
+	unique_ptr<TicTacToe> ttc;
+
+	cout << "Enter 3 or 4: ";
+	int game_type;
+	cin >> game_type;
+	while (game_type != 3 && game_type != 4) {
+		cout << "Has to be 3 or 4. Enter 3 or 4: ";
+		cin >> game_type;
+	}
+
+	if (game_type == 3) {
+		ttc = make_unique<TicTacToe3>();
+	} else {
+		ttc = make_unique<TicTacToe4>();
+	}
+
+	ttc->start_game(player);
 	cout << ttc;
 	
 	int o_win = 0;
@@ -30,8 +47,8 @@ int main()
 		cin >> ttc;
 		cout << ttc;
 
-		if(ttc.game_over()) {
-			cout << "Winner: " + ttc.get_winner() + "\n";
+		if(ttc->game_over()) {
+			cout << "Winner: " + ttc->get_winner() + "\n";
 			manager.save_game(ttc);
 			
 			manager.get_winner_total(o_win, x_win, tie);
@@ -49,7 +66,13 @@ int main()
 
 			if(con == "N") {
 				cout << "Game restart.\n";
-				ttc.start_game(player);
+				if (game_type == 3) {
+					ttc = make_unique<TicTacToe3>();
+				} else {
+					ttc = make_unique<TicTacToe4>();
+				}
+
+				ttc->start_game(player);
 				cout << ttc;
 			} else {
 				break;

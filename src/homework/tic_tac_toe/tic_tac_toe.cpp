@@ -1,9 +1,18 @@
 #include<string>
 #include <vector>
 #include <iostream>
+#include <memory>
 #include "tic_tac_toe.h"
 using std::string;
 using namespace std;
+
+TicTacToe::TicTacToe(int size)
+{
+    size *= size;
+    for (int i=0;i<size;i++) {
+        pegs.push_back(" ");
+    }
+}
 
 bool TicTacToe::game_over()
 {
@@ -23,7 +32,6 @@ bool TicTacToe::game_over()
 void TicTacToe::start_game(string first_player)
 {
     player = first_player;
-    pegs = {" ", " ", " ", " ", " ", " ", " ", " ", " "};
     clear_board();
 }
 
@@ -33,26 +41,44 @@ void TicTacToe::mark_board(int position)
     set_next_player();
 }
 
-istream & operator >> (istream &in, TicTacToe &t)
+istream & operator >> (istream &in, unique_ptr<TicTacToe> &t)
 {
     int pos;
-    cout << "Enter position from 1 to 9: ";
-    cin >> pos;
-    t.mark_board(pos);
+    if (t->pegs.size() == 9) {
+        cout << "Enter position from 1 to 9: ";
+        cin >> pos;
+        t->mark_board(pos);
+    } else {
+        cout << "Enter position from 1 to 16: ";
+        cin >> pos;
+        t->mark_board(pos);
+    }
     return in;
 }
 
-ostream & operator << (ostream &out, const TicTacToe &t)
+ostream & operator << (ostream &out, const unique_ptr<TicTacToe> &t)
 {
     int idx = 0;
-    for (auto it = t.pegs.begin(); it != t.pegs.end(); ++it) {
-        cout << *it;
-        if(idx % 3 != 2) {
-            cout << "|";
-        } else {
-            cout << "\n";
+    if (t->pegs.size() == 9) {
+        for (auto it = t->pegs.begin(); it != t->pegs.end(); ++it) {
+            cout << *it;
+            if(idx % 3 != 2) {
+                cout << "|";
+            } else {
+                cout << "\n";
+            }
+            idx++;
         }
-        idx++;
+    } else {
+        for (auto it = t->pegs.begin(); it != t->pegs.end(); ++it) {
+            cout << *it;
+            if(idx % 4 != 3) {
+                cout << "|";
+            } else {
+                cout << "\n";
+            }
+            idx++;
+        }
     }
     return out;
 }

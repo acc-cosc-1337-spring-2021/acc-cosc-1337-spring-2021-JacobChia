@@ -1,4 +1,5 @@
 #include<string>
+#include <memory>
 #include <vector>
 #include "tic_tac_toe.h"
 using std::string;
@@ -9,7 +10,7 @@ class TicTacToeManager
         int x_win = 0;
         int o_win = 0;
         int ties = 0;
-        vector<TicTacToe> games;
+        vector<unique_ptr<TicTacToe>> games;
         void update_winner_count(string winner)
         {
             if (winner == "X")
@@ -20,7 +21,7 @@ class TicTacToeManager
                 ties++;
         }
     public:
-        void save_game(TicTacToe b);
+        void save_game(unique_ptr<TicTacToe> &b);
         void get_winner_total(int& o, int& w, int& t);
         friend ostream & operator << (ostream &out, const TicTacToeManager &manager);
 };
