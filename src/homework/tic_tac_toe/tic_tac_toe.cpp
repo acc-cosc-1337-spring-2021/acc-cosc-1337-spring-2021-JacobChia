@@ -14,6 +14,12 @@ TicTacToe::TicTacToe(int size)
     }
 }
 
+TicTacToe::TicTacToe(vector<string> p, string win)
+{
+    pegs = p;
+    winner = win;
+}
+
 bool TicTacToe::game_over()
 {
     if (check_row_win() || check_column_win() || check_diagonal_win()) {
@@ -91,4 +97,9 @@ string TicTacToe::get_player()
 string TicTacToe::get_winner()
 {
     return winner;
+}
+
+vector<string> const TicTacToe::get_pegs()
+{
+    return pegs;
 }

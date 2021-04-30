@@ -15,5 +15,6 @@ class TicTacToe4: public TicTacToe {
         bool check_diagonal_win();
     public:
         TicTacToe4():TicTacToe(4){};
+        TicTacToe4(vector<string> p, string winner):TicTacToe(p, winner){};
 };
 #endif

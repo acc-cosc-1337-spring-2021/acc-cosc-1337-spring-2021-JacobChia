@@ -62,11 +62,13 @@ class TicTacToe
         }
     public:
         TicTacToe(int size);
+        TicTacToe(vector<string> p, string win);
         bool game_over();
         void start_game(string first_player);
         void mark_board(int position);
         string get_player();
         string get_winner();
+        vector<string> const get_pegs();
         friend ostream & operator << (ostream &out, const unique_ptr<TicTacToe> &t);
         friend istream & operator >> (istream &in, unique_ptr<TicTacToe> &t);
 };

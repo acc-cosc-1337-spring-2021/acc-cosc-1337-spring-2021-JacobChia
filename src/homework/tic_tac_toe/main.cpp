@@ -5,6 +5,7 @@
 #include "tic_tac_toe_manager.h"
 #include "tic_tac_toe_3.h"
 #include "tic_tac_toe_4.h"
+#include "tic_tac_toe_data.h"
 using std::string;
 using namespace std;
 
@@ -19,7 +20,8 @@ int main()
 		cout << "Has to be X or O. Enter X or O: ";
 		cin >> player;
 	}
-	TicTacToeManager manager;
+	TicTacToeData data;
+	TicTacToeManager manager = TicTacToeManager(data);
 	unique_ptr<TicTacToe> ttc;
 
 	cout << "Enter 3 or 4: ";

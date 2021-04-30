@@ -5,6 +5,17 @@
 using std::string;
 using namespace std;
 
+TicTacToeManager::TicTacToeManager(TicTacToeData &d)
+{
+    data = d;
+    games = data.get_games();
+}
+
+TicTacToeManager::~TicTacToeManager()
+{
+    data.save_games(games);
+}
+
 void TicTacToeManager::save_game(unique_ptr<TicTacToe> &b)
 {
     update_winner_count(b->get_winner());
